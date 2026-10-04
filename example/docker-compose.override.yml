@@ -1,0 +1,26 @@
+services:
+  provisioner:
+    image: ghcr.io/socheatsok78/netbirdio-provisioner:latest
+    restart: no
+    env_file:
+      - ./proxy.env
+    working_dir: ${PWD}
+    volumes:
+      - ${PWD}:${PWD}:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - provisioning-configs:/provisioning-configs
+    depends_on:
+      netbird-server:
+        condition: service_started
+
+  proxy:
+    # Override the default image with a custom version
+    image: ghcr.io/socheatsok78/netbirdio-reverse-proxy:latest
+    volumes:
+      - provisioning-configs:/provisioning-configs:ro
+    depends_on:
+      provisioner:
+        condition: service_completed_successfully
+
+volumes:
+  provisioning-configs:
