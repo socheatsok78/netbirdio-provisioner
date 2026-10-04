@@ -11,6 +11,10 @@ group "default" {
 
 target "reverse-proxy" {
     context = "reverse-proxy"
+    platforms = [
+        "linux/amd64",
+        "linux/arm64",
+    ]
     tags = [
         "ghcr.io/${GITHUB_REPOSITORY_OWNER}/netbirdio-reverse-proxy:latest"
     ]
@@ -18,6 +22,10 @@ target "reverse-proxy" {
 
 target "netbirdio-provisioner" {
     context = "netbirdio-provisioner"
+    platforms = [
+        "linux/amd64",
+        "linux/arm64",
+    ]
     tags = [
         "ghcr.io/${GITHUB_REPOSITORY_OWNER}/netbirdio-provisioner:latest"
     ]
