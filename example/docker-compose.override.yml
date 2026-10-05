@@ -2,11 +2,14 @@ services:
   provisioner:
     image: ghcr.io/socheatsok78/netbirdio-provisioner:latest
     restart: no
+    environment:
+      # IMPORTANT: Ensure COMPOSE_PROJECT_NAME is set correctly
+      #            The provisioner runs "docker compose" commands using this project name
+      #            If not set, an error will occur
+      COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
     env_file:
       - ./proxy.env
-    working_dir: ${PWD}
     volumes:
-      - ${PWD}:${PWD}:ro
       - /var/run/docker.sock:/var/run/docker.sock
       - provisioning-configs:/provisioning-configs
     depends_on:
