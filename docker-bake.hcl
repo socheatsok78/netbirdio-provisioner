@@ -13,6 +13,8 @@ variable "NETBIRD_RELEASES" {
     default = [
         "latest",
         "0.81.3",
+        "0.81.4",
+        "0.81.5",
     ]
 }
 
