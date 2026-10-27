@@ -6,14 +6,13 @@ group "default" {
     targets = [
         "reverse-proxy",
         "netbirdio-provisioner",
+        "netbirdio-prune-proxy-peers",
     ]
 }
 
 variable "NETBIRD_RELEASES" {
     default = [
         "latest",
-        "0.81.3",
-        "0.81.4",
         "0.81.5",
     ]
 }
@@ -51,5 +50,41 @@ target "netbirdio-provisioner" {
     ]
     tags = [
         "ghcr.io/${GITHUB_REPOSITORY_OWNER}/netbirdio-provisioner:${version}"
+    ]
+}
+
+target "netbirdio-provisioner" {
+    matrix = {
+        version = NETBIRD_RELEASES
+    }
+    name = "netbirdio-provisioner-${sanitize(version)}"
+    context = "netbirdio-provisioner"
+    args = {
+        NETBIRD_VERSION = version
+    }
+    platforms = [
+        "linux/amd64",
+        "linux/arm64",
+    ]
+    tags = [
+        "ghcr.io/${GITHUB_REPOSITORY_OWNER}/netbirdio-provisioner:${version}"
+    ]
+}
+
+target "netbirdio-prune-proxy-peers" {
+    matrix = {
+        version = NETBIRD_RELEASES
+    }
+    name = "netbirdio-prune-proxy-peers-${sanitize(version)}"
+    context = "netbirdio-prune-proxy-peers"
+    args = {
+        NETBIRD_VERSION = version
+    }
+    platforms = [
+        "linux/amd64",
+        "linux/arm64",
+    ]
+    tags = [
+        "ghcr.io/${GITHUB_REPOSITORY_OWNER}/netbirdio-prune-proxy-peers:${version}"
     ]
 }
