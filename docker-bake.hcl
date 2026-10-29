@@ -13,7 +13,7 @@ group "default" {
 variable "NETBIRD_RELEASES" {
     default = [
         "latest",
-        "0.81.5",
+        "0.82.0",
     ]
 }
 
