@@ -20,14 +20,14 @@ echo ""
 echo "export NB_PROXY_TOKEN=$NB_PROXY_TOKEN" >> /provisioning-configs/proxy.env
 
 # Register CrowdSec bouncer if NB_PROXY_CROWDSEC_API_URL is set
-if [[ -n "${NB_PROXY_CROWDSEC_API_URL}" ]]; then
+if [ -n "${NB_PROXY_CROWDSEC_API_URL}" ]; then
 	echo "Registering CrowdSec bouncer..."
 	while ! docker compose exec -T crowdsec cscli lapi status >/dev/null 2>&1; do
 		echo "Waiting for CrowdSec to be ready..."
 		sleep 2
 	done
 	NB_PROXY_CROWDSEC_API_KEY=$(docker compose exec -T crowdsec cscli bouncers add netbird-proxy -o raw 2>/dev/null)
-	if [[ -z "$NB_PROXY_CROWDSEC_API_KEY" ]]; then
+	if [ -z "$NB_PROXY_CROWDSEC_API_KEY" ]; then
 		echo "WARNING: Failed to create CrowdSec bouncer key. Exiting." > /dev/stderr
 		exit 1
 	else
